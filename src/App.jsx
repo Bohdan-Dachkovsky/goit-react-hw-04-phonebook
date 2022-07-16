@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
-import ContactList from './src/components/ContactList/ContactList'
-import Filter from './src/components/Filter/Filter'
-import ContactForm from './src/components/ContactForm/ContactForm'
+import ContactList from './components/ContactList/ContactList'
+import Filter from './components/Filter/Filter'
+import ContactForm from './components/ContactForm/ContactForm'
 
 const App = () => {
   // state = {
@@ -48,13 +48,13 @@ const App = () => {
   //   }
   // }
 
-  const getVisibleContacts = () => {
-    const { contacts, filter } = this.state
+  // const getVisibleContacts = () => {
+  //   const { contacts, filter } = this.state
 
-    return contacts.filter((contacts) =>
-      contacts.name.toLowerCase().includes(filter.toLowerCase()),
-    )
-  }
+  //   return contacts.filter((contacts) =>
+  //     contacts.name.toLowerCase().includes(filter.toLowerCase()),
+  //   )
+  // }
 
   // removeContact = (contactId, prevState) => {
   //   this.setState((prevState) => {
@@ -88,7 +88,8 @@ const App = () => {
     })
   }
 
-  const visibleContacts = getVisibleContacts()
+  const visibleContacts = 1
+  // getVisibleContacts()
 
   return (
     <div>
