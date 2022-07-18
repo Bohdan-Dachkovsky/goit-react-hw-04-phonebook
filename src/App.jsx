@@ -1,95 +1,70 @@
 import { v4 as uuidv4 } from 'uuid'
+import { useState, useEffect } from 'react'
 import ContactList from './components/ContactList/ContactList'
 import Filter from './components/Filter/Filter'
 import ContactForm from './components/ContactForm/ContactForm'
-
+const initialContacts = [
+  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+  { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+]
 const App = () => {
-  // state = {
-  //   contacts: [
-  //     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  //     { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  //     { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  //     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  //   ],
-  //   filter: '',
-  // }
+  const [contacts, setContacts] = useState(initialContacts)
+  const [filter, setFilter] = useState('')
 
-  const addContact = (task) => {
-    const searchSameName = this.state.contacts
+  const addContact = (phone) => {
+    const searchSameName = contacts
       .map((cont) => cont.name)
-      .includes(task.name)
+      .includes(phone.name)
     if (searchSameName) {
-      alert(`${task.name} is already in contacts`)
-    } else if (task.name.length === 0) {
+      alert(`${phone.name} is already in contacts`)
+    } else if (phone.name.length === 0) {
       alert('Fields must be filled!')
     } else {
       const contact = {
-        ...task,
+        ...phone,
         id: uuidv4(),
       }
-
-      this.setState((prevState) => ({
+      setContacts((prevState) => ({
         contacts: [...prevState.contacts, contact],
       }))
+
       console.log(` new persons added`)
     }
   }
+  useEffect(() => {
+    const contacts = localStorage.getItem('contacts')
+    const parsedContacts = JSON.parse(contacts)
+    if (parsedContacts) {
+      setContacts({ contacts: parsedContacts })
+    }
+  }, [contacts])
 
-  // componentDidMount() {
-  //   const contacts = localStorage.getItem('contacts')
-  //   const parsedContacts = JSON.parse(contacts)
-  //   if (parsedContacts) {
-  //     this.setState({ contacts: parsedContacts })
-  //   }
-  // }
-  // componentDidUpdate(prevProp, prevState) {
-  //   if (this.state.contacts !== prevState.contacts) {
-  //     localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
-  //   }
-  // }
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+  }, [])
+  const getVisibleContacts = () => {
+    return contacts.filter((contacts) =>
+      contacts.name.toLowerCase().includes(filter.toLowerCase()),
+    )
+  }
 
-  // const getVisibleContacts = () => {
-  //   const { contacts, filter } = this.state
-
-  //   return contacts.filter((contacts) =>
-  //     contacts.name.toLowerCase().includes(filter.toLowerCase()),
-  //   )
-  // }
-
-  // removeContact = (contactId, prevState) => {
-  //   this.setState((prevState) => {
-  //     return {
-  //       contacts: prevState.contacts.filter(({ id }) => id !== contactId),
-  //     }
-  //   })
-
-  //   console.log(` persons removed`)
-  // }
   const removeContact = (contactId) => {
-    this.setState(({ contacts }) => {
+    setContacts(({ contacts }) => {
       return {
         contacts: contacts.filter((e) => e.id !== contactId),
       }
     })
   }
-  // handleChange = ({ target }) => {
-  //   const { name, value } = target
-  //   this.setState({ [name]: value })
-  // }
-  // changeFilter = ({ target }) => {
-  //   this.setState({
-  //     filter: target.value,
-  //   })
-  // }
 
   const filterUsers = (e) => {
-    this.setState({
+    setFilter({
       filter: e.currentTarget.value,
     })
   }
 
-  const visibleContacts = 1
-  // getVisibleContacts()
+  const visibleContacts = getVisibleContacts()
 
   return (
     <div>
