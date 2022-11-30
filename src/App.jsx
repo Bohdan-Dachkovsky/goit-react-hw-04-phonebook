@@ -14,9 +14,7 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   const addContact = (phone) => {
-    const searchSameName = contacts
-      .map((cont) => cont.name)
-      .includes(phone.name)
+    const searchSameName = contacts.includes(phone.name)
     if (searchSameName) {
       alert(`${phone.name} is already in contacts`)
     } else if (phone.name.length === 0) {
@@ -39,11 +37,11 @@ const App = () => {
     if (parsedContacts) {
       setContacts({ contacts: parsedContacts })
     }
-  }, [contacts])
+  }, [])
 
   useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
-  }, [])
+    localStorage.setItem('contacts', JSON.stringify(contacts))
+  }, [contacts])
   const getVisibleContacts = () => {
     return contacts.filter((contacts) =>
       contacts.name.toLowerCase().includes(filter.toLowerCase()),

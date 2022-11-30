@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import styles from './ContactForm.module.css'
 
-const ContactForm = () => {
+const ContactForm = (onAddContact) => {
   const [state, setState] = useState({
     name: '',
     number: '',
@@ -19,7 +19,7 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    this.props.onAddContact({ ...state })
+    onAddContact({ ...state })
 
     setState({ name: '', number: '' })
   }
@@ -44,7 +44,7 @@ const ContactForm = () => {
           type="text"
           name="number"
           value={state.number}
-          onChange={this.handleChange}
+          onChange={handleChange}
           autoComplete="off"
         />
       </label>
