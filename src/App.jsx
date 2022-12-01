@@ -14,8 +14,9 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   const addContact = (phone) => {
-    const searchSameName = contacts.includes(phone.name)
-    if (searchSameName) {
+    console.log(phone.name)
+
+    if (phone.name.length) {
       alert(`${phone.name} is already in contacts`)
     } else if (phone.name.length === 0) {
       alert('Fields must be filled!')
@@ -43,9 +44,9 @@ const App = () => {
     localStorage.setItem('contacts', JSON.stringify(contacts))
   }, [contacts])
   const getVisibleContacts = () => {
-    return contacts.filter((contacts) =>
-      contacts.name.toLowerCase().includes(filter.toLowerCase()),
-    )
+    if (filter) {
+      contacts.filter((contacts) => contacts.name.toLowerCase())
+    }
   }
 
   const removeContact = (contactId) => {
@@ -73,7 +74,7 @@ const App = () => {
 
       <Filter input={filterUsers} />
 
-      {visibleContacts.length > 0 && (
+      {visibleContacts > 0 && (
         <ContactList
           contacts={visibleContacts}
           onRemoveContact={removeContact}

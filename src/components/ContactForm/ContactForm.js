@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import styles from './ContactForm.module.css'
 
-const ContactForm = (onAddContact) => {
+const ContactForm = (props) => {
   const [state, setState] = useState({
     name: '',
     number: '',
@@ -19,7 +19,7 @@ const ContactForm = (onAddContact) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    onAddContact({ ...state })
+    props.onAddContact({ ...state })
 
     setState({ name: '', number: '' })
   }
