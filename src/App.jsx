@@ -3,33 +3,26 @@ import { useState, useEffect } from 'react'
 import ContactList from './components/ContactList/ContactList'
 import Filter from './components/Filter/Filter'
 import ContactForm from './components/ContactForm/ContactForm'
-const initialContacts = [
+const contact = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
   { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
   { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ]
 const App = () => {
-  const [contacts, setContacts] = useState(initialContacts)
+  const [contacts, setContacts] = useState(contact)
   const [filter, setFilter] = useState('')
 
   const addContact = (phone) => {
-    console.log(phone.name)
-
-    if (phone.name.length) {
-      alert(`${phone.name} is already in contacts`)
+    const contact = {
+      ...phone,
+      id: uuidv4(),
+    }
+    setContacts((prevState) => [...prevState, contact])
+    if (phone.name === filter) {
+      console.log(` new persons added`)
     } else if (phone.name.length === 0) {
       alert('Fields must be filled!')
-    } else {
-      const contact = {
-        ...phone,
-        id: uuidv4(),
-      }
-      setContacts((prevState) => ({
-        contacts: [...prevState.contacts, contact],
-      }))
-
-      console.log(` new persons added`)
     }
   }
   useEffect(() => {
@@ -44,9 +37,7 @@ const App = () => {
     localStorage.setItem('contacts', JSON.stringify(contacts))
   }, [contacts])
   const getVisibleContacts = () => {
-    if (filter) {
-      contacts.filter((contacts) => contacts.name.toLowerCase())
-    }
+    return contacts.name === filter
   }
 
   const removeContact = (contactId) => {
