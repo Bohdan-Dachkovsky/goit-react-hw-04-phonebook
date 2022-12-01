@@ -3,14 +3,14 @@ import { useState, useEffect } from 'react'
 import ContactList from './components/ContactList/ContactList'
 import Filter from './components/Filter/Filter'
 import ContactForm from './components/ContactForm/ContactForm'
-const contact = [
+const initalContacts = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
   { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
   { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ]
 const App = () => {
-  const [contacts, setContacts] = useState(contact)
+  const [contacts, setContacts] = useState(initalContacts)
   const [filter, setFilter] = useState('')
 
   const addContact = (phone) => {
@@ -18,10 +18,10 @@ const App = () => {
       ...phone,
       id: uuidv4(),
     }
-    setContacts((prevState) => [...prevState, contact])
-    if (phone.name === filter) {
-      console.log(` new persons added`)
-    } else if (phone.name.length === 0) {
+    setContacts((prevState) => ({
+      contacts: [...prevState.contacts, contact],
+    }))
+    if (phone.name.length === 0) {
       alert('Fields must be filled!')
     }
   }
@@ -66,10 +66,7 @@ const App = () => {
       <Filter input={filterUsers} />
 
       {visibleContacts > 0 && (
-        <ContactList
-          contacts={visibleContacts}
-          onRemoveContact={removeContact}
-        />
+        <ContactList contacts={contacts} onRemoveContact={removeContact} />
       )}
     </div>
   )

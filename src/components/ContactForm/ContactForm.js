@@ -7,21 +7,19 @@ const ContactForm = (props) => {
     name: '',
     number: '',
   })
-
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setState({
-      ...state,
-      [name]: value,
-    })
-  }
-
   const handleSubmit = (e) => {
     e.preventDefault()
 
     props.onAddContact({ ...state })
 
     setState({ name: '', number: '' })
+  }
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setState({
+      ...state,
+      [name]: value,
+    })
   }
 
   return (
