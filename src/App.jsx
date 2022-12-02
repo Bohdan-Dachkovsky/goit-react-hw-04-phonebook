@@ -14,13 +14,25 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   const addContact = (phone) => {
-    const contact = {
-      ...phone,
-      id: uuidv4(),
+    const searchSameName = contacts.map((cont) => {
+      return cont.name === phone.name
+    })
+    if (searchSameName) {
+      alert(`${phone.name} is already in contacts`)
+    } else if (phone.name.length === 0) {
+      alert('Fields must be filled!')
+    } else {
+      const contact = {
+        ...phone,
+        id: uuidv4(),
+      }
+
+      setContacts((contacts) => ({
+        contacts: [...contacts, contact],
+      }))
+      console.log(` new persons added`)
     }
-    setContacts((prevState) => ({
-      contacts: [...prevState.contacts, contact],
-    }))
+
     if (phone.name.length === 0) {
       alert('Fields must be filled!')
     }
@@ -37,21 +49,19 @@ const App = () => {
     localStorage.setItem('contacts', JSON.stringify(contacts))
   }, [contacts])
   const getVisibleContacts = () => {
-    return contacts.name === filter
+    return !filter
+      ? contacts
+      : contacts.filter((contacts) =>
+          contacts.name.toLowerCase().includes(filter.toLowerCase()),
+        )
   }
 
   const removeContact = (contactId) => {
-    setContacts((contacts) => {
-      return {
-        contacts: contacts.filter((e) => e.id !== contactId),
-      }
-    })
+    setContacts((contacts) => contacts.filter((e) => e.id !== contactId))
   }
 
   const filterUsers = (e) => {
-    setFilter({
-      filter: e.currentTarget.value,
-    })
+    setFilter(e.currentTarget.value)
   }
 
   const visibleContacts = getVisibleContacts()
@@ -63,10 +73,13 @@ const App = () => {
       <ContactForm onAddContact={addContact} />
       <h2>Contacts</h2>
 
-      <Filter input={filterUsers} />
+      <Filter input={filterUsers} filterValue={filter} />
 
-      {visibleContacts > 0 && (
-        <ContactList contacts={contacts} onRemoveContact={removeContact} />
+      {visibleContacts.length > 0 && (
+        <ContactList
+          contacts={visibleContacts}
+          onRemoveContact={removeContact}
+        />
       )}
     </div>
   )

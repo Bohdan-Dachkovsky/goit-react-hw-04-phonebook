@@ -5,7 +5,10 @@ import styles from './ContactList.module.css'
 const ContactList = ({ contacts, onRemoveContact }) => {
   return (
     <ul className={styles.TaskList}>
-      {!contacts.length && <p>No data contacts!</p>}
+      <li>
+        {!contacts.length && <p>No data contacts!</p>}
+        {contacts.length || <p>Find data contacts!</p>}
+      </li>
       {contacts.map((contact) => (
         <li className={styles.TaskList_item} key={contact.id}>
           {contact.name + ':' + contact.number}
