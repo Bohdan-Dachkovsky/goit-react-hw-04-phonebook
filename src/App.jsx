@@ -29,7 +29,7 @@ const App = () => {
         id: uuidv4(),
       }
 
-      setContacts([...contacts, contact])
+      setContacts([...contact, contact])
       console.log(` new persons added`)
     }
   }
