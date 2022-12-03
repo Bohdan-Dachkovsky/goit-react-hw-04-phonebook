@@ -3,15 +3,17 @@ import PropTypes from 'prop-types'
 import styles from './ContactList.module.css'
 
 const ContactList = ({ contacts, onRemoveContact }) => {
+  console.log(contacts)
   return (
     <ul className={styles.TaskList}>
       <li>
         {!contacts.length && <p>No data contacts!</p>}
         {contacts.length || <p>Find data contacts!</p>}
       </li>
-      {contacts.map((contact) => (
+      {contacts.map((contact, idx, arr) => (
         <li className={styles.TaskList_item} key={contact.id}>
           {contact.name + ':' + contact.number}
+          {console.log(arr)}
           {
             <button
               className={styles.TaskList_button}
@@ -29,7 +31,6 @@ const ContactList = ({ contacts, onRemoveContact }) => {
 }
 
 ContactList.propTypes = {
-  onRemoveContact: PropTypes.func.isRequired,
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -37,5 +38,6 @@ ContactList.propTypes = {
       number: PropTypes.string.isRequired,
     }),
   ),
+  onRemoveContact: PropTypes.func.isRequired,
 }
 export default ContactList

@@ -24,12 +24,14 @@ const App = () => {
     } else if (phone.name.length === 0) {
       alert('Fields must be filled!')
     } else {
-      const contact = {
-        ...phone,
-        id: uuidv4(),
-      }
+      const contact = [
+        {
+          ...phone,
+          id: uuidv4(),
+        },
+      ]
 
-      setContacts([...contact, contact])
+      setContacts((prevState) => [...prevState, ...contact])
       console.log(` new persons added`)
     }
   }
@@ -37,7 +39,7 @@ const App = () => {
     const contacts = localStorage.getItem('contacts')
     const parsedContacts = JSON.parse(contacts)
     if (parsedContacts) {
-      setContacts({ parsedContacts })
+      setContacts([parsedContacts])
     }
   }, [])
 
