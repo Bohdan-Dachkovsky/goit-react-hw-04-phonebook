@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 import styles from './ContactList.module.css'
 
 const ContactList = ({ contacts, onRemoveContact }) => {
-  console.log(contacts)
   return (
     <ul className={styles.TaskList}>
       <li>
         {!contacts.length && <p>No data contacts!</p>}
-        {contacts.length || <p>Find data contacts!</p>}
+        {'Контактів додано:' + contacts.length || <p>Find data contacts!</p>}
       </li>
       {contacts.map((contact, idx, arr) => (
         <li className={styles.TaskList_item} key={contact.id}>
